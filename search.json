@@ -1,5 +1,12 @@
 [
   {
+    "objectID": "analysis.html",
+    "href": "analysis.html",
+    "title": "Example analysis",
+    "section": "",
+    "text": "library(palmerpenguins)"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Cindy Fang",
@@ -12,12 +19,5 @@
     "title": "About Cindy",
     "section": "",
     "text": "In my free time, I enjoy cooking, working out, listening to music, and reading.\nKombucha recipe by Jeffrey Im and myself, but mostly Jeff. My personal favourite flavours are raspberry, pineapple, and and concord grapes."
-  },
-  {
-    "objectID": "analysis.html",
-    "href": "analysis.html",
-    "title": "Example analysis",
-    "section": "",
-    "text": "library(palmerpenguins)"
   }
 ]
