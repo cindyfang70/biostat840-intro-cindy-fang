@@ -1,0 +1,23 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Cindy Fang",
+    "section": "",
+    "text": "I’m a first-year Biostatistics PhD student at the Johns Hopkins Bloomberg School of Public Health. I’m interested in developing statistical methods for the analysis of single cell and spatial transcriptomics data."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About Cindy",
+    "section": "",
+    "text": "1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "analysis.html",
+    "href": "analysis.html",
+    "title": "Example analysis",
+    "section": "",
+    "text": "library(palmerpenguins)"
+  }
+]
