@@ -2,8 +2,8 @@
 title: "About Cindy"
 ---
 
-About this site
+I am currently a first-year PhD Student in Biostatistics and the Johns Hopkins Bloomberg School of Public Health. Prior to this, I completed my BS at the University of Toronto in Bioinformatics and Computational Biology.
 
-```{r}
-1 + 1
-```
+In my free time, I enjoy cooking, working out, listening to music, and reading.
+
+[Kombucha recipe](https://docs.google.com/document/d/17-y1aje0G3_frGPQ19gTvn_KQTNQhOXVivYRufM-Fx8/edit#heading=h.qvzb50vfgyzg) by [Jeffrey Im](http://www.math.toronto.edu/jim/) and myself, but mostly Jeff. My personal favourite flavours are raspberry, pineapple, and and concord grapes.

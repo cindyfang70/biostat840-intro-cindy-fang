@@ -2,16 +2,16 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Cindy’s Website",
+    "title": "Cindy Fang",
     "section": "",
-    "text": "To learn more about Quarto websites visit https://quarto.org/docs/websites.\n\n1 + 1\n\n[1] 2\n\n\n\n\n\n\n\nWe know from the first fundamental theorem of calculus that for \\(x\\) in \\([a, b]\\):\n\\[\\frac{d}{dx}\\left( \\int_{a}^{x} f(u)\\,du\\right)=f(x).\\]"
+    "text": "I’m a first-year Biostatistics PhD student at the Johns Hopkins Bloomberg School of Public Health. I’m interested in developing statistical methods for the analysis of single cell and spatial transcriptomics data."
   },
   {
     "objectID": "about.html",
     "href": "about.html",
-    "title": "About",
+    "title": "About Cindy",
     "section": "",
-    "text": "1 + 1\n\n[1] 2"
+    "text": "In my free time, I enjoy cooking, working out, listening to music, and reading.\nKombucha recipe by Jeffrey Im and myself, but mostly Jeff. My personal favourite flavours are raspberry, pineapple, and and concord grapes."
   },
   {
     "objectID": "analysis.html",

@@ -1,0 +1,14 @@
+{
+  "hash": "604ea09cbe3f733c0a41fc87a1038f77",
+  "result": {
+    "markdown": "---\ntitle: \"Example analysis\"\neditor: visual\n---\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(palmerpenguins)\n```\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
