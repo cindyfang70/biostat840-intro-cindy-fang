@@ -1,0 +1,23 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Cindy’s Website",
+    "section": "",
+    "text": "To learn more about Quarto websites visit https://quarto.org/docs/websites.\n\n1 + 1\n\n[1] 2\n\n\n\n\n\n\n\nWe know from the first fundamental theorem of calculus that for \\(x\\) in \\([a, b]\\):\n\\[\\frac{d}{dx}\\left( \\int_{a}^{x} f(u)\\,du\\right)=f(x).\\]"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "analysis.html",
+    "href": "analysis.html",
+    "title": "Example analysis",
+    "section": "",
+    "text": "library(palmerpenguins)"
+  }
+]

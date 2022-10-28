@@ -1,0 +1,5 @@
+---
+title: "Cindy Fang"
+---
+
+I'm a first-year Biostatistics PhD student at the Johns Hopkins Bloomberg School of Public Health. I'm interested in developing statistical methods for the analysis of single cell and spatial transcriptomics data.
