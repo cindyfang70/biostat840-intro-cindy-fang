@@ -1,1 +1,1 @@
-Sitemap: https://github.com/cindyfang70/cindy_quarto_website/sitemap.xml
+Sitemap: https://cindyfang70.github.io/cindy_quarto_website/sitemap.xml
