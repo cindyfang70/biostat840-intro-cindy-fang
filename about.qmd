@@ -1,9 +1,16 @@
 ---
 title: "About Cindy"
 ---
+# What I'm up to most of the time
+I am currently a first-year PhD Student in Biostatistics and the Johns Hopkins Bloomberg School of Public Health, supervised by [Stephanie Hicks](https://www.stephaniehicks.com/). Prior to this, I completed my BS at the University of Toronto in Bioinformatics and Computational Biology. There, I worked with [Kieran Campbell](https://www.camlab.ca/) on automated machine learning for predicting scRNA-seq clustering pipeline performance.
 
-I am currently a first-year PhD Student in Biostatistics and the Johns Hopkins Bloomberg School of Public Health. Prior to this, I completed my BS at the University of Toronto in Bioinformatics and Computational Biology.
+This past July, I presented my work with Kieran at [BioC2022](https://bioc2022.bioconductor.org/). [Here](https://www.youtube.com/watch?v=AkElObGncWE&list=PLdl4u5ZRDMQS4pReC0_sUnPMB3x9YIPkH&index=21) is a recording of my talk.
 
+# What I'm up to the rest of the time
 In my free time, I enjoy cooking, working out, listening to music, and reading.
 
 [Kombucha recipe](https://docs.google.com/document/d/17-y1aje0G3_frGPQ19gTvn_KQTNQhOXVivYRufM-Fx8/edit#heading=h.qvzb50vfgyzg) by [Jeffrey Im](http://www.math.toronto.edu/jim/) and myself, but mostly Jeff. My personal favourite flavours are raspberry, pineapple, and and concord grapes.
+
+[One of my favourite songs](https://www.youtube.com/watch?v=Uvwl7INZykc), by a band called Beach House. They happen to be from Baltimore!
+
+
