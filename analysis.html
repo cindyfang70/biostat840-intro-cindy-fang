@@ -196,8 +196,8 @@ Layering liquids
 <p></p><figcaption class="figure-caption">An iced oat milk latte I made a few weeks ago</figcaption><p></p>
 </figure>
 </div>
-<p>Years of caffeine dependency have undoubtedly made me an authority on this topic, but in order to assess the current coffee zeitgeist, I will be analyzing a data set consisting of Walmart coffee listings from 500 different stores as well as consumer ratings of each coffee. I will examine the relationship between factors such as roast, brand, and price and the rating of the coffee in order to explore what contributes to a coffee’s popularity.</p>
-<p>If you are interested in coffee, or just love to drink it, read on to find out which type might be your best bet!</p>
+<p>Years of caffeine dependency have undoubtedly made me an authority on this topic, but in order to assess the current coffee zeitgeist, I will be analyzing a data set consisting of Walmart coffee listings from 500 different stores as well as consumer ratings of each coffee. I will examine whether more expensive coffees are better rated than cheaper ones.</p>
+<p>If you are interested in learning more about coffee, or just love to drink it, read on to find out which type might be your best bet!</p>
 <p>First, let’s take a quick look at the data:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
@@ -321,7 +321,25 @@ Layering liquids
 <p><img src="analysis_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Now, let’s plot the rating of the coffee against the price, in order to see whether more expensive coffees are better.</p>
+<p>Just for fun, let’s look at the mean rating for each type of roast:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ratingMeans <span class="ot">&lt;-</span> coffee <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(roastTypes) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_modify</span>(<span class="sc">~</span> <span class="fu">as.data.frame</span>(<span class="fu">mean</span>(.<span class="sc">$</span>rating)))</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(ratingMeans)[[<span class="dv">2</span>]] <span class="ot">&lt;-</span> <span class="st">"avgRating"</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>ratingMeans</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+# Groups:   roastTypes [3]
+  roastTypes   avgRating
+  &lt;chr&gt;            &lt;dbl&gt;
+1 dark roast        4.33
+2 light roast       3.37
+3 medium roast      4.31</code></pre>
+</div>
+</div>
+<p>We can see that dark and medium roast are much higher rated than light roast coffees. Now, let’s plot the rating of the coffee against the price, in order to see whether more expensive coffees are better.</p>
 <div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -336,9 +354,9 @@ Note
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>coffee <span class="ot">&lt;-</span> coffee <span class="sc">%&gt;%</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">numericWeight =</span> <span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">"([0-9]+).*$"</span>, <span class="st">"</span><span class="sc">\\</span><span class="st">1"</span>, weight))) <span class="sc">%&gt;%</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">unitPrice =</span> price<span class="sc">/</span>numericWeight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>coffee <span class="ot">&lt;-</span> coffee <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">numericWeight =</span> <span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">"([0-9]+).*$"</span>, <span class="st">"</span><span class="sc">\\</span><span class="st">1"</span>, weight))) <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">unitPrice =</span> price<span class="sc">/</span>numericWeight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in mask$eval_all_mutate(quo): NAs introduced by coercion</code></pre>
 </div>
@@ -348,11 +366,11 @@ Note
 <div class="no-row-height column-margin column-container"><div class="">
 <p>I’m faceting by roast type because I think the three different roasts are not really interchangeable and thus should be considered individually.</p>
 </div></div><div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(coffee, <span class="fu">aes</span>(<span class="at">x=</span>unitPrice, <span class="at">y=</span>rating))<span class="sc">+</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span>lm)<span class="sc">+</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>roastTypes)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>p2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(coffee, <span class="fu">aes</span>(<span class="at">x=</span>unitPrice, <span class="at">y=</span>rating))<span class="sc">+</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span>lm)<span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>roastTypes)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>p2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`geom_smooth()` using formula 'y ~ x'</code></pre>
 </div>
@@ -363,10 +381,11 @@ Note
 <pre><code>Warning: Removed 47 rows containing missing values (geom_point).</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="analysis_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+<p><img src="analysis_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Across the three different coffees, we can see that there is a slight decreasing trend. This means that a more expensive coffee does not necessarily indicate a better tasting one! Unfortunately, as we saw from the histogram of coffee ratings, the distribution of the ratings is heavily left-skewed so we actually do not have much data on lower-rated coffees. Thus, the results from this analysis should be taken with several grains of salt, until we get more data. I hope you’ve enjoyed this pretentious coffee data analysis!</p>
+<p>Functions used: dplyr: filter, mutate, select</p>
 
 
 
