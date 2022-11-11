@@ -1,12 +1,5 @@
 [
   {
-    "objectID": "analysis.html",
-    "href": "analysis.html",
-    "title": "Example analysis",
-    "section": "",
-    "text": "library(palmerpenguins)"
-  },
-  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Cindy Fang",
@@ -19,5 +12,12 @@
     "title": "About Cindy",
     "section": "",
     "text": "What I’m up to the rest of the time\nIn my free time, I enjoy cooking, working out, listening to music, and reading.\nKombucha recipe by Jeffrey Im and myself, but mostly Jeff. My personal favourite flavours are raspberry, pineapple, and and concord grapes.\nOne of my favourite songs, by a band called Beach House. They happen to be from Baltimore!"
+  },
+  {
+    "objectID": "analysis.html",
+    "href": "analysis.html",
+    "title": "Example analysis",
+    "section": "",
+    "text": "Layering liquids\n\n\n\nYou can add coffee to a glass of oat milk by pouring slowly over the back of a spoon to create a layered drink!\n\n\n\n\n\nAn iced oat milk latte I made a few weeks ago\n\n\nYears of caffeine dependency have undoubtedly made me an authority on this topic, but in order to assess the current coffee zeitgeist, I will be analyzing a data set consisting of Walmart coffee listings from 500 different stores as well as consumer ratings of each coffee. I will examine the relationship between factors such as roast, brand, and price and the rating of the coffee in order to explore what contributes to a coffee’s popularity.\nIf you are interested in coffee, or just love to drink it, read on to find out which type might be your best bet!\nFirst, let’s take a quick look at the data:\n\nlibrary(knitr)\nlibrary(tidyverse)\nlibrary(dplyr)\n\n\ncoffee <- read.csv(\"data/coffee-listings-from-all-walmart-stores.csv\")\ncoffee <- coffee %>%\n  select(-c(thumbnail, seller_name, weight_formatted_to_gramms)) %>%\n  filter(grepl(\"roast\", coffee_type))\n\nroastTypes <- strsplit(coffee$coffee_type, split=\",\")\nroastIndex <- lapply(roastTypes, grep, pattern=\"roast\")\nfor (i in 1:length(roastTypes)){\n  roastTypes[i] <- roastTypes[[i]][[roastIndex[[i]][[1]]]]\n}\nroastTypes <- unlist(roastTypes)\n#print(roastTypes)\nkable(head(coffee))\n\n\n\n\n\n\n\n\n\n\n\n\ntitle\ncoffee_type\nrating\nreviews\nprice\nweight\n\n\n\n\nfolgers classic roast ground coffee, 40.3-ounce\nclassic roast\n3.8\n93\n13.92\n40.3-ounce\n\n\ncafé bustelo, espresso style dark roast ground coffee, vacuum-packed 10 oz. brick\nespresso,dark roast\n4.7\n914\n3.76\n10 oz\n\n\nfolgers classic roast ground coffee, medium roast coffee, 25.9 ounce canister\nmedium roast,classic roast\n4.4\n740\n9.97\n25.9 ounce\n\n\ngreat value classic roast medium ground coffee, value size, 48 oz\nclassic roast\n4.7\n1598\n9.98\n48 oz\n\n\ngreat value classic roast medium ground coffee, 30.5 oz\nclassic roast\n4.2\n263\n7.98\n30.5 oz\n\n\ncaf bustelo, espresso style dark roast ground coffee, vacuum-packed 10 oz. brick\nespresso,dark roast\n4.7\n914\n3.76\n10 oz\n\n\n\n\n\nTo keep things simple, we will subset the data to only look at the three most common roast types: light, medium and dark.\n\nlibrary(ggplot2)\ncoffee$roastTypes <- roastTypes\n\ncoffee <- coffee %>%\n  filter(roastTypes %in% c(\"dark roast\", \"medium roast\", \"light roast\"))\n\np <- ggplot(coffee, aes(roastTypes))+\n  geom_bar()\np\n\n\n\n\nLet’s look at the distribution of the different ratings:\n\nhist(coffee$rating)\n\n\n\nggplot(coffee, aes(x=rating))+\n  geom_histogram()\n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.\n\n\n\n\n\nNow, let’s plot the rating of the coffee against the price, in order to see whether more expensive coffees are better.\n\n\n\n\n\n\nNote\n\n\n\nSince the coffees come in different sizes, we first need to calculate the unit price for each product.\n\n\n\ncoffee <- coffee %>%\n  mutate(numericWeight = as.numeric(gsub(\"([0-9]+).*$\", \"\\\\1\", weight))) %>%\n  mutate(unitPrice = price/numericWeight)\n\nWarning in mask$eval_all_mutate(quo): NAs introduced by coercion\n\n\nNow, let’s plot the rating of the coffee against the price, faceted by the roast type.\n\n\nI’m faceting by roast type because I think the three different roasts are not really interchangeable and thus should be considered individually.\n\np2 <- ggplot(coffee, aes(x=unitPrice, y=rating))+\n  geom_point()+\n  geom_smooth(method=lm)+\n  facet_wrap(~roastTypes)\np2\n\n`geom_smooth()` using formula 'y ~ x'\n\n\nWarning: Removed 48 rows containing non-finite values (stat_smooth).\n\n\nWarning: Removed 47 rows containing missing values (geom_point).\n\n\n\n\n\nAcross the three different coffees, we can see that there is a slight decreasing trend. This means that a more expensive coffee does not necessarily indicate a better tasting one! Unfortunately, as we saw from the histogram of coffee ratings, the distribution of the ratings is heavily left-skewed so we actually do not have much data on lower-rated coffees. Thus, the results from this analysis should be taken with several grains of salt, until we get more data. I hope you’ve enjoyed this pretentious coffee data analysis!"
   }
 ]
