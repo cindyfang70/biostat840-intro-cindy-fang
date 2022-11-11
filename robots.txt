@@ -1,1 +1,1 @@
-Sitemap: https://cindyfang70.github.io/cindy_quarto_website/sitemap.xml
+Sitemap: https://github.com/cindyfang70/biostat840-intro-cindy-fang/sitemap.xml
