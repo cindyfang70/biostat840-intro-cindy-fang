@@ -78,6 +78,25 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 
@@ -155,10 +174,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#data-dictionary" id="toc-data-dictionary" class="nav-link active" data-scroll-target="#data-dictionary">Data dictionary</a></li>
+  <li><a href="#analysis" id="toc-analysis" class="nav-link" data-scroll-target="#analysis">Analysis</a>
+  <ul class="collapse">
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -176,13 +205,250 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(palmerpenguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Like many other graduate students, I am an avid consumer of coffee. I typically drink at least one cup of dark roast every morning with a splash of oat milk. I buy whole beans and grind them by hand, and brew using the pour over method. If I’m feeling fancy, I’ll go to a cafe and order a black iced Americano (objectively the best espresso drink).</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
+<div class="callout-caption-container flex-fill">
+Layering liquids
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can add coffee to a glass of oat milk by pouring slowly over the back of a spoon to create a layered drink!</p>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="media/IMG_5581.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">An iced oat milk latte I made a few weeks ago</figcaption><p></p>
+</figure>
+</div>
+<p>Years of caffeine dependency have undoubtedly made me an authority on this topic, but in order to assess the current coffee zeitgeist, I will be analyzing a data set consisting of Walmart coffee listings from 500 different stores as well as consumer ratings of each coffee <span class="citation" data-cites="zub_2022">(<a href="#ref-zub_2022" role="doc-biblioref">Zub 2022</a>)</span>. I will examine whether more expensive coffees are better rated than cheaper ones.</p>
+<p>If you are interested in learning more about coffee, or just love to drink it, read on to find out which type might be your best bet!</p>
+<p>First, let’s take a quick look at the data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>coffee <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/coffee-listings-from-all-walmart-stores.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>coffee <span class="ot">&lt;-</span> coffee <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(thumbnail, seller_name, weight_formatted_to_gramms)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">"roast"</span>, coffee_type))</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>roastTypes <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(coffee<span class="sc">$</span>coffee_type, <span class="at">split=</span><span class="st">","</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>roastIndex <span class="ot">&lt;-</span> <span class="fu">lapply</span>(roastTypes, grep, <span class="at">pattern=</span><span class="st">"roast"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(roastTypes)){</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  roastTypes[i] <span class="ot">&lt;-</span> roastTypes[[i]][[roastIndex[[i]][[<span class="dv">1</span>]]]]</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>roastTypes <span class="ot">&lt;-</span> <span class="fu">unlist</span>(roastTypes)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#print(roastTypes)</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(coffee))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 58%">
+<col style="width: 19%">
+<col style="width: 4%">
+<col style="width: 5%">
+<col style="width: 4%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">title</th>
+<th style="text-align: left;">coffee_type</th>
+<th style="text-align: right;">rating</th>
+<th style="text-align: right;">reviews</th>
+<th style="text-align: right;">price</th>
+<th style="text-align: left;">weight</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">folgers classic roast ground coffee, 40.3-ounce</td>
+<td style="text-align: left;">classic roast</td>
+<td style="text-align: right;">3.8</td>
+<td style="text-align: right;">93</td>
+<td style="text-align: right;">13.92</td>
+<td style="text-align: left;">40.3-ounce</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">café bustelo, espresso style dark roast ground coffee, vacuum-packed 10 oz. brick</td>
+<td style="text-align: left;">espresso,dark roast</td>
+<td style="text-align: right;">4.7</td>
+<td style="text-align: right;">914</td>
+<td style="text-align: right;">3.76</td>
+<td style="text-align: left;">10 oz</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">folgers classic roast ground coffee, medium roast coffee, 25.9 ounce canister</td>
+<td style="text-align: left;">medium roast,classic roast</td>
+<td style="text-align: right;">4.4</td>
+<td style="text-align: right;">740</td>
+<td style="text-align: right;">9.97</td>
+<td style="text-align: left;">25.9 ounce</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">great value classic roast medium ground coffee, value size, 48 oz</td>
+<td style="text-align: left;">classic roast</td>
+<td style="text-align: right;">4.7</td>
+<td style="text-align: right;">1598</td>
+<td style="text-align: right;">9.98</td>
+<td style="text-align: left;">48 oz</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">great value classic roast medium ground coffee, 30.5 oz</td>
+<td style="text-align: left;">classic roast</td>
+<td style="text-align: right;">4.2</td>
+<td style="text-align: right;">263</td>
+<td style="text-align: right;">7.98</td>
+<td style="text-align: left;">30.5 oz</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">caf bustelo, espresso style dark roast ground coffee, vacuum-packed 10 oz. brick</td>
+<td style="text-align: left;">espresso,dark roast</td>
+<td style="text-align: right;">4.7</td>
+<td style="text-align: right;">914</td>
+<td style="text-align: right;">3.76</td>
+<td style="text-align: left;">10 oz</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<section id="data-dictionary" class="level1">
+<h1>Data dictionary</h1>
+<p><strong>title</strong>: the brand and name of the coffee</p>
+<p><strong>coffee_type</strong>: the type of roast of the coffee</p>
+<p><strong>rating</strong>: the average rating of the coffee</p>
+<p><strong>reviews</strong>: the number of reviews of the coffee</p>
+<p><strong>price</strong>: the retail price of the coffee</p>
+<p><strong>weight</strong>: the weight for one package of the coffee</p>
+</section>
+<section id="analysis" class="level1 page-columns page-full">
+<h1>Analysis</h1>
+<p>To keep things simple, we will subset the data to only look at the three most common roast types: light, medium and dark.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>coffee<span class="sc">$</span>roastTypes <span class="ot">&lt;-</span> roastTypes</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>coffee <span class="ot">&lt;-</span> coffee <span class="sc">%&gt;%</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(roastTypes <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"dark roast"</span>, <span class="st">"medium roast"</span>, <span class="st">"light roast"</span>))</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(coffee, <span class="fu">aes</span>(roastTypes))<span class="sc">+</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()<span class="sc">+</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Roast Types"</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="analysis_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>Figure 1:</strong> a bar chart of the number of coffees in each roast type.</p>
+<p>Let’s look at the distribution of the different ratings:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(coffee, <span class="fu">aes</span>(<span class="at">x=</span>rating))<span class="sc">+</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="analysis_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>Figure 2:</strong> A histogram of the coffee ratings.</p>
+<p>Just for fun, let’s look at the mean rating for each type of roast:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ratingMeans <span class="ot">&lt;-</span> coffee <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(roastTypes) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_modify</span>(<span class="sc">~</span> <span class="fu">as.data.frame</span>(<span class="fu">mean</span>(.<span class="sc">$</span>rating)))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(ratingMeans)[[<span class="dv">2</span>]] <span class="ot">&lt;-</span> <span class="st">"avgRating"</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>ratingMeans</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+# Groups:   roastTypes [3]
+  roastTypes   avgRating
+  &lt;chr&gt;            &lt;dbl&gt;
+1 dark roast        4.33
+2 light roast       3.37
+3 medium roast      4.31</code></pre>
+</div>
+</div>
+<p>We can see that dark and medium roast are much higher rated than light roast coffees.</p>
+<p>Now, let’s plot the rating of the coffee against the price, in order to see whether more expensive coffees are better.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Since the coffees come in different sizes, we first need to calculate the unit price for each product.</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>coffee <span class="ot">&lt;-</span> coffee <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">numericWeight =</span> <span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">"([0-9]+).*$"</span>, <span class="st">"</span><span class="sc">\\</span><span class="st">1"</span>, weight))) <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">unitPrice =</span> price<span class="sc">/</span>numericWeight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in mask$eval_all_mutate(quo): NAs introduced by coercion</code></pre>
+</div>
+</div>
+<p>Now, let’s plot the rating of the coffee against the price, faceted by the roast type.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>I’m faceting by roast type because I think the three different roasts are not really interchangeable and thus should be considered individually.</p>
+</div></div><div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(coffee, <span class="fu">aes</span>(<span class="at">x=</span>unitPrice, <span class="at">y=</span>rating))<span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span>lm)<span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>roastTypes)<span class="sc">+</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Unit Price"</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>p2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula 'y ~ x'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 48 rows containing non-finite values (stat_smooth).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 47 rows containing missing values (geom_point).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="analysis_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>Figure 3</strong>: Scatter plots of the coffee ratings against the unit price, faceted by the roast type.</p>
+<p>Across the three different coffees, we can see that there is a slight decreasing trend. This means that a more expensive coffee does not necessarily indicate a better tasting one! Unfortunately, as we saw from the histogram of coffee ratings, the distribution of the ratings is heavily left-skewed so we actually do not have much data on lower-rated coffees. Thus, the results from this analysis should be taken with several grains of salt, until we get more data. I hope you’ve enjoyed this pretentious coffee data analysis!</p>
+<p>Functions used:</p>
+<p>dplyr <span class="citation" data-cites="dplyr">(<a href="#ref-dplyr" role="doc-biblioref">Wickham et al. 2022</a>)</span>: filter, mutate, select, group_by, group_modify</p>
+<p>ggplot2 <span class="citation" data-cites="ggplot2">(<a href="#ref-ggplot2" role="doc-biblioref">Wickham 2016</a>)</span>: geom_histogram, geom_point, geom_smooth, facet_wrap</p>
+<section id="references" class="level2">
 
 
 
-</main> <!-- /main -->
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-ggplot2" class="csl-entry" role="doc-biblioentry">
+Wickham, Hadley. 2016. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. Springer-Verlag New York. <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a>.
+</div>
+<div id="ref-dplyr" class="csl-entry" role="doc-biblioentry">
+Wickham, Hadley, Romain François, Lionel Henry, and Kirill Müller. 2022. <em>Dplyr: A Grammar of Data Manipulation</em>. <a href="https://CRAN.R-project.org/package=dplyr">https://CRAN.R-project.org/package=dplyr</a>.
+</div>
+<div id="ref-zub_2022" class="csl-entry" role="doc-biblioentry">
+Zub, Dmitriy. 2022. <span>“Walmart Coffee Listings from 500 Stores.”</span> <em>Kaggle</em>. <a href="https://www.kaggle.com/datasets/dimitryzub/walmart-coffee-listings-from-500-stores">https://www.kaggle.com/datasets/dimitryzub/walmart-coffee-listings-from-500-stores</a>.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
